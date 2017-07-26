@@ -12,8 +12,8 @@ email:
       subject: "SupExt alert for {{ service }}"
       content: "/etc/supext/mail.tpl"
       address:
-        - sysadmin@lex-persona.com
-        - dev@lex-persona.com
+        - sysadmin@example.com
+        - dev@example.com
 
 cachet:
   url: "https://status.example.com"
