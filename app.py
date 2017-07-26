@@ -35,7 +35,7 @@ class App():
                     test = getattr(importlib.import_module('tests.{0}'.format(data['type'])), data['type'])
                     self.tests[data['type']] = test()
                     self.logger.info('Loaded test {0}'.format(data['type']))
-                except ImportError:
+                except (ImportError, AttributeError):
                     self.logger.error('Cannot load test {0}'.format(data['type']))
 
     def loadConfig(self):

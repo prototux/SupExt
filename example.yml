@@ -24,7 +24,7 @@ tests:
     component: "Website"
     type: "http"
     config:
-      - url: "https://www.example.com"
+      url: "https://www.example.com"
     group: "default"
     location:
       - "dc-east-1"
@@ -33,7 +33,7 @@ tests:
     component: "Webmail"
     type: "http"
     config:
-      - url: "https://webmail.example.com"
+      url: "https://webmail.example.com"
     group: "default"
     location:
       - "dc-east-1"
