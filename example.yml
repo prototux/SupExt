@@ -39,3 +39,12 @@ tests:
       - "dc-east-1"
       - "dc-west-1"
 
+  ssh:
+    component: "SSH"
+    type: "tcp"
+    config:
+      host: "example.com"
+      port: 22
+    group: "default"
+    location:
+      - "dc-west-1"
