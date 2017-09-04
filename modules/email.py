@@ -36,4 +36,4 @@ class email:
 
         except:
 
-            self.logger.error('Cannont send email {0}'.format(subject))
+            self.logger.error('Cannot send email {0}'.format(text_subject))
