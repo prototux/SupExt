@@ -1,20 +1,21 @@
 import socket
-import time
-import logging
 
 class dns:
-    def test(self, config):
-        ret = { 'ok': None, 'duration': 0, 'message': None }
+    def __init__(self):
+        self.socket = socket.socket()
 
+    def run(self, config):
+        ret = { 'ok': None, 'message': None }
+
+        # Check for mandatory parameters
         if not 'host' in config:
             ret['ok'] = False
             ret['message'] = 'No server to check'
             return ret
 
+        # Try to resolve DNS
         try:
-            start = time.time()
             ip = socket.gethostbyname(config['host'])
-            roundtrip = int((time.time() - start)*1000)
 
             # If there's optional parameter ip
             if config.get('ip') and ip != config.get('ip'):
@@ -27,9 +28,5 @@ class dns:
             return ret
 
         ret['ok'] = True
-        ret['message'] = "Resolved in {0}ms".format(roundtrip)
-        ret['duration'] = roundtrip
+        ret['message'] = "Resolved correctly"
         return ret
-
-    def __init__(self):
-        self.socket = socket.socket()

@@ -1,0 +1,20 @@
+#!/usr/bin/env python3
+
+import supext
+import signal
+import argparse
+
+if __name__ == '__main__':
+    # Parse CLI arguments
+    argsp = argparse.ArgumentParser(prog='SupExt', description='External monitoring service')
+    argsp.add_argument('--config', action='store', default='/etc/supext', help='Configuration directory, defaults to /etc/supext')
+    argsp.add_argument('--noapi', action='store_true', help='Disable the HTTP API')
+    argsp.add_argument('--debug', action='store_true', help='Debug mode')
+    args = argsp.parse_args()
+
+    # Execute the daemon and attach signals for sigint and sighup
+    daemon = supext.supext(config=args.config, noapi=args.noapi, debug=args.debug)
+    signal.signal(signal.SIGHUP, daemon.reload)
+    signal.signal(signal.SIGINT, daemon.exit)
+    signal.signal(signal.SIGTERM, daemon.exit)
+    daemon.start()

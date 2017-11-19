@@ -1,0 +1,76 @@
+# Example configuration for SupExt
+
+# Timers: time between each round of tests
+# and time before retry to double-check
+timers:
+  rounds: 1200
+  retry: 120
+
+# Logging, logfile and level
+logging:
+  file: "/var/log/supext.log"
+  level: "INFO"
+
+# API, if it's enabled, host+port
+# and the key to access protected endpoints
+api:
+  enabled: true,
+  host: "0.0.0.0"
+  port: "8080"
+  key: "Tr0ub4dor&3"
+
+# Alerting modules and their configuration
+# (with a example for an email server)
+alerting:
+  email:
+    host: "smtp.example.com"
+    port: "25"
+    username: "alert"
+    password: "correcthorsebatterystaple"
+    from: "alert@example.com"
+    groups:
+      default:
+        subject: "SupExt alert for {{ service }}"
+        content: "/etc/supext/mail.tpl"
+        address:
+          - sysadmin@example.com
+          - dev@example.com
+
+# Connector modules, with example configuration
+# for CachetHQ and ElasticSearch modules
+connectors:
+  cachet:
+    url: "https://status.example.com"
+    token: "xkcd"
+  elasticsearch:
+    hosts:
+      - 'mycluster'
+
+# The actual checks
+# Each check have some mandatory parameters:
+#  * name: that's the id, here "website" and "store"
+#  * test: the kind of test (= test module)
+#  * location: a location, used for canary checks
+# There's also some optional parameters:
+#  * config: the test module config
+#  * canary: canary checks disable all tests
+#            in the same location and alerts
+#            without double-check if check fails
+# You can also add additional parameters for connectors
+# and alerting modules (here for CachetHQ and mail alerts)
+# these are called "meta" in SupExt
+checks:
+  website:
+    test: "http"
+    config: {url: "http://example.com"}
+    location: "dc-east-1"
+    cachet: {component: "Website"}
+    mail: {group: "default"}
+
+  store:
+    test: "http"
+    canary: true
+    config: {url: "http://store.example.com"}
+    location: "dc-west-1"
+    cachet: {component: "Store"}
+    mail: {group: "default"}

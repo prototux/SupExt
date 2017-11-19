@@ -1,18 +1,17 @@
 import ssl
-import socket
-import time
-import logging
 import OpenSSL
 
 class https:
-    def test(self, config):
-        ret = { 'ok': None, 'duration': 0, 'message': None }
+    def run(self, config):
+        ret = { 'ok': None, 'message': None }
 
+        # Check for mandatory parameters
         if not 'host' in config:
             ret['ok'] = False
             ret['message'] = 'No server to check'
             return ret
 
+        # Fetch and verify SSL certificate
         try:
             pem = ssl.get_server_certificate((config['host'], config.get('port', 443)))
             cert = OpenSSL.crypto.load_certificate(OpenSSL.crypto.FILETYPE_PEM, pem)
@@ -27,5 +26,4 @@ class https:
         else:
             ret['ok'] = True
             ret['message'] = 'Certificate is OK'
-        ret['duration'] = 0
         return ret

@@ -1,8 +1,13 @@
 # SupExt
-SupExt is a supervision system designed to be run outside your infrastructure, and does test "as if" it is a external client. the system is modular so you can write your own tests to fulfill your needs.
+
+SupExt is an external monitoring system designed to run tests from outside your infrastructure "as if" it is a client. the system is also modular so you can write your own modules if needed.
 
 ## Configuration
-The whole system is configured using a simple yaml file in /etc/supext/config.yml. there's an example configuration file in example.yml and an example mail template in mail.tpl
+SupExt is configured using a yaml file at /etc/supext/config.yml. there's an example config file in conf, also, there's an example mail template for the mail module.
 
 ## Modules
-Right now, SupExt is capable of sending alert emails if a test fails two times in a row, sending logs in Elasticsearch and updating the status of CachetHQ components. it is planned that modules can be set dynamically too
+Supext is designed with 3 kinds of modules: tests, alerts and logging.
+* Tests are the modules that execute the different checks defined in your config file
+* Logging are the modules that log the results, for example in ElasticSearch or in CachetHQ
+* Alerts are the modules that are trigged if a check fails 2 times in a row, for example to send an email
+
