@@ -4,6 +4,7 @@ import logging
 class http:
     def __init__(self):
         # Disable requests' output
+        requests.packages.urllib3.disable_warnings(requests.packages.urllib3.exceptions.InsecureRequestWarning)
         requests_logger = logging.getLogger('requests')
         requests_logger.setLevel(logging.ERROR)
 
