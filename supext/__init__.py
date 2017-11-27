@@ -126,12 +126,14 @@ class supext():
         if 'connectors' in self.config:
             self.connectors = connectors.connectors(self.config['connectors'])
         else:
+            self.connectors = None
             self.logger.warn('No connector found in configuration')
 
         # Load Alerting modules
         if 'alerting' in self.config:
             self.alerting = alerting.alerting(self.config['alerting'])
         else:
+            self.alerting = None
             self.logger.warn('No alerting module found in configuration')
 
         return None
@@ -144,14 +146,14 @@ class supext():
 
     def runCheck(self, name, alert=False):
         result = self.checks.run(name)
-        if not result['ok'] and alert:
+        if self.alerting and not result['ok'] and alert:
             self.logger.error('Check {0} failed for the second time, alerting...'.format(name))
             self.alerting.alert(result, self.checks.get(name))
         elif alert:
             self.logger.info('Check {0} recovered on second try'.format(name))
 
         # Execute connectors only on success or confirmed fail
-        if result['ok'] or (not result['ok'] and alert):
+        if self.connectors and (result['ok'] or (not result['ok'] and alert)):
             self.connectors.addEntry(result, self.checks.get(name))
         return result
 
