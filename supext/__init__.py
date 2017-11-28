@@ -195,6 +195,7 @@ class supext():
             except Exception:
                 self.logger.error('Execution failed for check {0}'.format(name))
                 continue
+        self.logger.info('Round of checks finished')
 
     def loop(self):
         self.logger.info('Run new round of checks')
