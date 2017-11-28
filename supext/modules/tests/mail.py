@@ -27,7 +27,7 @@ class mail:
             smtp = smtplib.SMTP(config['smtp']['host'], config['smtp']['port'])
             smtp.starttls()
             smtp.login(config['smtp']['user'], config['smtp']['pass'])
-            #smtp.sendmail(config['smtp']['from'], [config['smtp']['to']], message.as_string())
+            smtp.sendmail(config['smtp']['from'], [config['smtp']['to']], message.as_string())
             smtp.quit()
         except:
             ret['ok'] = None
