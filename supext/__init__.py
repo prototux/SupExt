@@ -96,26 +96,21 @@ class supext():
         # If there's no errors, apply the new configuration
         self.config = new_config
 
-        # General configuration
-        if 'general' in self.config:
-            # Timers (between each round and before retry)
-            self.time_rounds = int((self.config.get('timers') or {}).get('rounds', 1200))
-            self.time_retry = int((self.config['general'].get('timers') or {}).get('retry', 120))
+        # Timers (between each round and before retry)
+        self.time_rounds = int((self.config.get('timers') or {}).get('rounds', 1200))
+        self.time_retry = int((self.config.get('timers') or {}).get('retry', 120))
 
-            # Logging (to a log file, instead of syslog)
-            logfile = (self.config.get('logging') or {}).get('file', '/var/log/supext.log')
-            level = (self.config.get('logging') or {}).get('level', 'INFO')
-            handler = logging.handlers.RotatingFileHandler(logfile, maxBytes=104857600, backupCount=20)
-            if hasattr(logging, level):
-                handler.setLevel(getattr(logging, level))
-            else:
-                self.logger.error('Log level {0} doesn\'t exist'.format(level))
-                handler.setLevel(logging.INFO)
-            handler.setFormatter(logging.Formatter('[%(asctime)s] [%(levelname)s] %(message)s'))
-            self.logger.addHandler(handler)
+        # Logging (to a log file, instead of syslog)
+        logfile = (self.config.get('logging') or {}).get('file', '/var/log/supext.log')
+        level = (self.config.get('logging') or {}).get('level', 'INFO')
+        handler = logging.handlers.RotatingFileHandler(logfile, maxBytes=104857600, backupCount=20)
+        if hasattr(logging, level):
+            handler.setLevel(getattr(logging, level))
         else:
-            self.time_rounds = 1200
-            self.time_retry = 120
+            self.logger.error('Log level {0} doesn\'t exist'.format(level))
+            handler.setLevel(logging.INFO)
+        handler.setFormatter(logging.Formatter('[%(asctime)s] [%(levelname)s] %(message)s'))
+        self.logger.addHandler(handler)
 
     def loadModules(self):
 
