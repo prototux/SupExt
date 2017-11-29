@@ -1,4 +1,5 @@
 from flask import Flask, request, Response
+from flask_cors import CORS
 import threading
 import logging
 import json
@@ -7,6 +8,7 @@ class api():
     def __init__(self, parent, config):
         # Init Flask
         self.app = Flask('supext')
+        CORS(self.app)
 
         # Get parent and checks
         self.parent = parent
