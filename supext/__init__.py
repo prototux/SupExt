@@ -103,7 +103,7 @@ class supext():
             self.time_retry = int((self.config['general'].get('timers') or {}).get('retry', 120))
 
             # Logging (to a log file, instead of syslog)
-            logfile = (self.config.get('logging') or {}).get('logfile', '/var/log/supext.log')
+            logfile = (self.config.get('logging') or {}).get('file', '/var/log/supext.log')
             level = (self.config.get('logging') or {}).get('level', 'INFO')
             handler = logging.handlers.RotatingFileHandler(logfile, maxBytes=104857600, backupCount=20)
             if hasattr(logging, level):
