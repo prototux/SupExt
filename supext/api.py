@@ -28,11 +28,11 @@ class api():
             self.logger.error('No key found, will not run API')
 
         # Add URL routing rules
-        self.app.add_url_rule('/', 'root', self.root, methods=['GET'])
-        self.app.add_url_rule('/api/v1/checks/<name>', 'check', self.check, methods=['GET', 'POST'])
-        self.app.add_url_rule('/api/v1/checks', 'checks', self.checks, methods=['GET', 'POST'])
-        self.app.add_url_rule('/api/v1/muted', 'muted', self.mute, methods=['GET'])
-        self.app.add_url_rule('/api/v1/mute/<name>', 'mute', self.mute, methods=['POST'])
+        self.app.add_url_rule('/', 'root', self.api_root, methods=['GET'])
+        self.app.add_url_rule('/api/v1/checks/<name>', 'check', self.api_check, methods=['GET', 'POST'])
+        self.app.add_url_rule('/api/v1/checks', 'checks', self.api_checks, methods=['GET', 'POST'])
+        self.app.add_url_rule('/api/v1/muted', 'muted', self.api_mute, methods=['GET'])
+        self.app.add_url_rule('/api/v1/mute/<name>', 'mute', self.api_mute, methods=['POST'])
 
     def run(self):
         if self.key:
@@ -66,10 +66,10 @@ class api():
         return check_ret
 
 
-    def root(self):
+    def api_root(self):
         return json.dumps({'result': 'OK'})
 
-    def check(self, name):
+    def api_check(self, name):
         # Check for API key
         if not self.verifyKey(request):
             return json.dumps({'result': 'KO'}), 403
@@ -97,7 +97,7 @@ class api():
         # Should never go there
         return json.dumps({'result', 'KO'})
 
-    def checks(self):
+    def api_checks(self):
         # Check for API key
         if not self.verifyKey(request):
             return json.dumps({'result': 'KO'}), 403
@@ -122,7 +122,7 @@ class api():
         # Should never go there
         return json.dumps({'result', 'KO'})
 
-    def mute(self, name=None):
+    def api_mute(self, name=None):
         # Check for API key
         if not self.verifyKey(request):
             return json.dumps({'result': 'KO'}), 403
