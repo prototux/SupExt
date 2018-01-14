@@ -21,14 +21,18 @@ class cachet:
             return (self.certificate, self.key)
         return None
 
-    def getId(self, name):
+    def getComponent(self, name):
         try:
             req = requests.request("GET", '{0}/components?name={1}'.format(self.url, name), headers=self.getHeader(), cert=self.getCert())
         except:
             self.logger.error("Cachet component {0} doesn't exist".format(name))
+            return None
+
+        raw = req.json()
+        if 'data' in raw:
+            return raw['data'][0]['id'], raw['data'][0]['status']
         else:
-            if 'data' in req.json():
-                return req.json()['data'][0]['id']
+            self.logger.error('Cachet returned an invalid response for component {0}'.format(name))
 
         return None
 
@@ -47,9 +51,12 @@ class cachet:
         if result['ok'] == None:
             status = '4'
 
-        payload =  {'status':"{0}".format(status),'description':"{0}".format(result['message'])}
-        try:
-           return requests.request("PUT", '{0}/components/{1}'.format(self.url, self.getId(name)), data=payload, headers=self.getHeader(), cert=self.getCert())
-        except:
-            self.logger.error("Cannot update cachet")
-            return None
+        component_id, cur_status = self.getComponent(name)
+
+        if cur_status != status:
+            payload =  {'status':"{0}".format(status),'description':"{0}".format(result['message'])}
+            try:
+               return requests.request("PUT", '{0}/components/{1}'.format(self.url, component_id), data=payload, headers=self.getHeader(), cert=self.getCert())
+            except:
+                self.logger.error("Cannot update cachet")
+                return None
