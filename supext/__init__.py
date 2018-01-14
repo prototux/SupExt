@@ -38,7 +38,7 @@ class supext():
             self.initAPI()
 
         # Init thread pool for checks
-        self.pool = concurrent.futures.ThreadPoolExecutor(max_workers=5)
+        self.pool = concurrent.futures.ThreadPoolExecutor(max_workers=self.threads_nb)
 
     def initLogging(self):
         # Create logger with debug level
@@ -95,6 +95,9 @@ class supext():
 
         # If there's no errors, apply the new configuration
         self.config = new_config
+
+        # Threads
+        self.thread_nb = int(self.config.get('threads', 5))
 
         # Timers (between each round and before retry)
         self.time_rounds = int((self.config.get('timers') or {}).get('rounds', 1200))

@@ -1,5 +1,9 @@
 # Example configuration for SupExt
 
+# Threads: number of threads for the
+# tests thread pool, defaults to 5
+threads: 5
+
 # Timers: time between each round of tests
 # and time before retry to double-check
 timers:
