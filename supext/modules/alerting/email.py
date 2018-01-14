@@ -23,9 +23,17 @@ class email:
     def alert(self, result, check):
         meta = check['meta']
         group = (meta['mail'].get('group', 'default') if meta.get('mail') else 'default')
+
+        if type(group) is list:
+            for group_name in group:
+                self.sendAlert(check['name'], result, group_name)
+        else:
+            self.sendAlert(check['name'], result, group)
+
+    def sendAlert(self, name, result, group):
         if group in self.groups:
             self.logger.info('Sending mail to group {0}'.format(group))
-            self.sendMail(check['name'], result, group)
+            self.sendMail(name, result, group)
         else:
             self.logger.error('Cannot send mail to non-existing group {0}'.format(group))
 
