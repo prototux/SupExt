@@ -38,7 +38,7 @@ class supext():
             self.initAPI()
 
         # Init thread pool for checks
-        self.pool = concurrent.futures.ThreadPoolExecutor(max_workers=self.threads_nb)
+        self.pool = concurrent.futures.ThreadPoolExecutor(max_workers=self.thread_nb)
 
     def initLogging(self):
         # Create logger with debug level
