@@ -21,7 +21,7 @@ class api():
 
         # Get parameters
         self.host = config.get('host', '127.0.0.1')
-        self.port = config.get('port', '8080')
+        self.port = int(config.get('port', 8080))
         self.key = config.get('key', None)
 
         if not self.key:
